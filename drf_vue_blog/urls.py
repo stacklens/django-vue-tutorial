@@ -20,4 +20,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # 可视化接口
     path('api-auth/', include('rest_framework.urls')),
+    # article
+    path('api/article/', include('article.urls', namespace='article')),
 ]
