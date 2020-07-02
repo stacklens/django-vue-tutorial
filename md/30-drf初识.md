@@ -209,7 +209,7 @@ urlpatterns = [
 
 代码部分就完成了。
 
-接下来在后台中随意给 `article` 添加几个测试数据，启动服务器并访问 `http://127.0.0.1:8000/api/article/`，可以看到页面中返回的 Json 字符串如下（稍作了排版）：
+接下来创建一个管理员用户并在后台中随意给 `article` 添加几个测试数据，启动服务器并访问 `http://127.0.0.1:8000/api/article/`，可以看到页面中返回的 Json 字符串如下（稍作了排版）：
 
 ```python
 [
@@ -239,4 +239,4 @@ urlpatterns = [
 
 虽然很简陋，但是你已经成功完成了一个 Restful 的接口。是不是非常的简单。
 
-> 在后台中添加数据是非常基础的内容，如果不清楚请参照 [这篇文章](https://www.dusaiphoto.com/article/detail/15/)。
+> 创建管理员用户、在后台中添加数据是非常基础的内容，如果不清楚请参照 [这篇文章](https://www.dusaiphoto.com/article/detail/15/)。
