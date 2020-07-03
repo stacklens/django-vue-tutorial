@@ -11,16 +11,20 @@ from rest_framework import status
 from rest_framework import mixins
 from rest_framework import generics
 
+# from rest_framework.permissions import IsAdminUser
+from article.permissions import IsAdminUserOrReadOnly
+
 
 class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleDetailSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
 
 
 class ArticleList(generics.ListCreateAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleListSerializer
-
+    permission_classes = [IsAdminUserOrReadOnly]
 
 # @api_view(['GET', 'POST'])
 # def article_list(request):
