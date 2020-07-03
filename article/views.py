@@ -26,6 +26,10 @@ class ArticleList(generics.ListCreateAPIView):
     serializer_class = ArticleListSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 
+    def perform_create(self, serializer):
+        serializer.save(author=self.request.user)
+
+
 # @api_view(['GET', 'POST'])
 # def article_list(request):
 #     if request.method == 'GET':
