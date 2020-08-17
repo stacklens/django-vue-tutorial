@@ -11,12 +11,15 @@ class ArticleDetailSerializer(serializers.ModelSerializer):
 
 
 class ArticleListSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="article:detail")
+
     author = UserDescSerializer(read_only=True)
 
     class Meta:
         model = Article
         fields = [
-            'id',
+            'url',
+            # 'id',
             'title',
             'created',
             'author',
