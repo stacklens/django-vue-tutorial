@@ -17,14 +17,30 @@ from article.permissions import IsAdminUserOrReadOnly
 from rest_framework import viewsets
 from article.serializers import ArticleSerializer
 
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
+
 
 class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
+    # filterset_fields = ['author__username', 'title']
+
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    # def get_queryset(self):
+    #     queryset = self.queryset
+    #     username = self.request.query_params.get('username', None)
+    #
+    #     if username is not None:
+    #         queryset = queryset.filter(author__username=username)
+    #
+    #     return queryset
 
     # def get_serializer_class(self):
     #     if self.action == 'list':
