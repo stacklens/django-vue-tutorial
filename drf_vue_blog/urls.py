@@ -16,10 +16,20 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+from rest_framework.routers import DefaultRouter
+from article import views
+
+router = DefaultRouter()
+router.register(r'article', views.ArticleViewSet)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     # 可视化接口
     path('api-auth/', include('rest_framework.urls')),
+    # drf 默认路由器自动注册
+    path('api/', include(router.urls)),
+
     # article
-    path('api/article/', include('article.urls', namespace='article')),
+    # path('api/article/', include('article.urls', namespace='article')),
+
 ]

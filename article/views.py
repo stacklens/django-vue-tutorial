@@ -2,11 +2,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 from article.models import Article
-from article.serializers import ArticleListSerializer
+# from article.serializers import ArticleListSerializer
 
 from rest_framework.views import APIView
 from django.http import Http404
-from article.serializers import ArticleDetailSerializer
+# from article.serializers import ArticleDetailSerializer
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework import generics
@@ -14,21 +14,37 @@ from rest_framework import generics
 # from rest_framework.permissions import IsAdminUser
 from article.permissions import IsAdminUserOrReadOnly
 
+from rest_framework import viewsets
+from article.serializers import ArticleSerializer
 
-class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+
+class ArticleViewSet(viewsets.ModelViewSet):
     queryset = Article.objects.all()
-    serializer_class = ArticleDetailSerializer
-    permission_classes = [IsAdminUserOrReadOnly]
-
-
-class ArticleList(generics.ListCreateAPIView):
-    queryset = Article.objects.all()
-    serializer_class = ArticleListSerializer
+    serializer_class = ArticleSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+    # def get_serializer_class(self):
+    #     if self.action == 'list':
+    #         return ArticleListSerializer
+    #     else:
+    #         return ArticleDetailSerializer
+
+# class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
+#     queryset = Article.objects.all()
+#     serializer_class = ArticleDetailSerializer
+#     permission_classes = [IsAdminUserOrReadOnly]
+#
+#
+# class ArticleList(generics.ListCreateAPIView):
+#     queryset = Article.objects.all()
+#     serializer_class = ArticleListSerializer
+#     permission_classes = [IsAdminUserOrReadOnly]
+#
+#     def perform_create(self, serializer):
+#         serializer.save(author=self.request.user)
 
 # @api_view(['GET', 'POST'])
 # def article_list(request):

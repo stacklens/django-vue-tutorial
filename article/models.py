@@ -21,5 +21,8 @@ class Article(models.Model):
     # 更新时间
     updated = models.DateTimeField(auto_now=True)
 
+    class Meta:
+        ordering = ['-created']
+
     def __str__(self):
         return self.title
