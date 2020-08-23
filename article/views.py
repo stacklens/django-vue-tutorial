@@ -21,7 +21,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
 from article.models import Category
-from article.serializers import CategorySerializer
+from article.serializers import CategorySerializer, CategoryDetailSerializer
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -29,6 +29,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAdminUserOrReadOnly]
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return CategorySerializer
+        else:
+            return CategoryDetailSerializer
 
 
 class ArticleViewSet(viewsets.ModelViewSet):

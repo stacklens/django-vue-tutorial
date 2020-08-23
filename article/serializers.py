@@ -16,6 +16,32 @@ class CategorySerializer(serializers.ModelSerializer):
         read_only_fields = ['created']
 
 
+class ArticleCategoryDetailSerializer(serializers.ModelSerializer):
+    """给分类详情的嵌套序列化器"""
+    url = serializers.HyperlinkedIdentityField(view_name='article-detail')
+
+    class Meta:
+        model = Article
+        fields = [
+            'url',
+            'title',
+        ]
+
+
+class CategoryDetailSerializer(serializers.ModelSerializer):
+    """分类详情"""
+    articles = ArticleCategoryDetailSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = [
+            'id',
+            'title',
+            'created',
+            'articles',
+        ]
+
+
 class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     """博文序列化器"""
     author = UserDescSerializer(read_only=True)
@@ -30,12 +56,11 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
         if not Category.objects.filter(id=value).exists() and value != None:
             raise serializers.ValidationError("Category with id {} not exists.".format(value))
 
-        return  value
+        return value
 
     class Meta:
         model = Article
         fields = '__all__'
-
 
 # class ArticleDetailSerializer(serializers.ModelSerializer):
 #     class Meta:
