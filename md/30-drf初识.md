@@ -240,3 +240,5 @@ urlpatterns = [
 虽然很简陋，但是你已经成功完成了一个 Restful 的接口。是不是非常的简单。
 
 > 创建管理员用户、在后台中添加数据是非常基础的内容，如果不清楚请参照 [这篇文章](https://www.dusaiphoto.com/article/detail/15/)。
+>
+> 如果你进入后台发现页面没有样式，那是因为静态文件未配置路由引起的。解决这个问题请参考 [配置静态文件](https://www.dusaiphoto.com/article/92/)。

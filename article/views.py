@@ -20,18 +20,30 @@ from article.serializers import ArticleSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
+from article.models import Category
+from article.serializers import CategorySerializer
+
+
+class CategoryViewSet(viewsets.ModelViewSet):
+    """分类视图集"""
+    queryset = Category.objects.all()
+    serializer_class = CategorySerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+
 
 class ArticleViewSet(viewsets.ModelViewSet):
+    """博文视图集"""
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
     permission_classes = [IsAdminUserOrReadOnly]
 
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
-    # filterset_fields = ['author__username', 'title']
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    # filterset_fields = ['author__username', 'title']
 
     # def get_queryset(self):
     #     queryset = self.queryset
