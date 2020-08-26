@@ -23,6 +23,14 @@ from rest_framework import filters
 from article.models import Category
 from article.serializers import CategorySerializer, CategoryDetailSerializer
 
+from article.models import Tag
+from article.serializers import TagSerializer
+
+class TagViewSet(viewsets.ModelViewSet):
+    queryset = Tag.objects.all()
+    serializer_class = TagSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+
 
 class CategoryViewSet(viewsets.ModelViewSet):
     """分类视图集"""

@@ -4,6 +4,17 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 
 
+class Tag(models.Model):
+    """文章标签"""
+    text = models.CharField(max_length=30)
+
+    class Meta:
+        ordering = ['-id']
+
+    def __str__(self):
+        return self.text
+
+
 class Category(models.Model):
     """文章分类"""
     title = models.CharField(max_length=100)
@@ -29,6 +40,11 @@ class Article(models.Model):
         Category,
         null=True,
         on_delete=models.SET_NULL,
+        related_name='articles'
+    )
+    # 标签
+    tags = models.ManyToManyField(
+        Tag,
         related_name='articles'
     )
     # 标题
