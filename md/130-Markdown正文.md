@@ -1,0 +1,125 @@
+博客文章需要排版，反则难以凸显标题、正文、注释等内容之间的区别。作为博客写手来说，比较流行且好用的排版则是 Markdown 语法。
+
+> 如果你没听过什么是 Markdown ，[这里](https://www.dusaiphoto.com/article/20/) 有一些简单介绍。
+
+渲染 Markdown 可以在前端也可以在后端。本文将使用后端渲染 Markdown 语法的形式，以便你理解 DRF 框架的知识。
+
+## 模型和视图
+
+为了将博文的正文部分渲染为 html 标签，首先给文章模型添加一个 `get_md()` 方法：
+
+```python
+# article/models.py
+
+from markdown import Markdown
+...
+
+class Article(models.Model):
+    ...
+    
+    # 新增方法，将 body 转换为带 html 标签的正文
+    def get_md(self):
+        md = Markdown(
+            extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                'markdown.extensions.toc',
+            ]
+        )
+        md_body = md.convert(self.body)
+        # toc 是渲染后的目录
+        return md_body, md.toc
+```
+
+方法返回了元组，包含了渲染为 html 的正文和目录。
+
+这些渲染后的数据，在文章详情接口是需要的，但是在列表接口却是毫无意义的，因此又要用到视图集根据请求方式动态获取序列化器的技术了：
+
+```python
+# article/views.py
+
+from article.serializers import ArticleDetailSerializer
+
+...
+
+# 新增 get_serializer_class() 方法
+class ArticleViewSet(viewsets.ModelViewSet):
+    ...
+
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ArticleSerializer
+        else:
+            return ArticleDetailSerializer
+```
+
+序列化器 `ArticleDetailSerializer`  还没有写，这就来搞定它。
+
+## 序列化器
+
+因为文章列表接口和详情接口只有一点点返回字段的区别，其实大部分功能还是一样的。那么常年被面向对象编程熏陶的你，“把他抽象成父类！” 应该可以脱口而出：
+
+```python
+# article/serializers.py
+
+...
+
+# 将已有的 ArticleSerializer 里的东西全部挪到这个 ArticleBaseSerializer 里来
+# 除了 Meta 类保留
+class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
+    author = ...
+    category = ...
+    category_id = ...
+    tags = ...
+
+    def to_internal_value(self, data):
+        ...
+
+    def validate_category_id(self, value):
+        ...
+
+# 保留 Meta 类
+# 将父类改为 ArticleBaseSerializer
+class ArticleSerializer(ArticleBaseSerializer):
+    class Meta:
+        model = Article
+        fields = '__all__'
+        extra_kwargs = {'body': {'write_only': True}}
+```
+
+与 Django 表单类似，你可以继承扩展和重用序列化器。就像上面的代码一样，在父类上声明一组通用的字段或方法，然后在许多序列化程序中使用它们。
+
+但是 `Meta` 内部类比较特殊，它不会隐式从父类继承。虽然有办法让它隐式继承，但这是不被推荐的，你应该显式声明它，以使得其行为更清晰。
+
+另外，如果你觉得在列表接口连 `body` 字段也不需要显示的话，你可以传入 `extra_kwargs` 使其变成仅可写却不显示的字段。
+
+把这些**代码重构**的准备工作都搞定之后，就可以正式写这个新的 `ArticleDetailSerializer` 了：
+
+```python
+# article/serializers.py
+
+...
+
+class ArticleDetailSerializer(ArticleBaseSerializer):
+    # 渲染后的正文
+    body_html = serializers.SerializerMethodField()
+    # 渲染后的目录
+    toc_html = serializers.SerializerMethodField()
+
+    def get_body_html(self, obj):
+        return obj.get_md()[0]
+
+    def get_toc_html(self, obj):
+        return obj.get_md()[1]
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+        extra_kwargs = {'body': {'write_only': True}}
+```
+
+`body_html` 、 `toc_html` 这两个渲染后的字段是经过加工后的数据，不存在于原始的数据中。为了将这类只读的附加字段添加到接口里，就可以用到 `SerializerMethodField()` 字段了。比如说 `body_html` 字段，它会自动去调用 `get_body_html()` 这个钩子方法，并将其返回结果作为需要序列化的数据。方法中的 `obj` 参数是序列化器获取到的 model 实例，也就是文章对象了。
+
+这样就大功告成了，读者自己测试一下，顺利的话详情接口就可以返回 Markdown 渲染后的数据了。
+
+> 代码重构得太早可能会导致某些不必要的抽象，太晚又可能堆积太多”屎山“而无从下手。理想情况下的重构是随着项目的开发同时进行的，在合适的节点进行合适的抽象，看着代码逐渐规整，你也会相当有成就感。

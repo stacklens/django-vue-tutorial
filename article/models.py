@@ -3,6 +3,7 @@ from django.utils import timezone
 
 from django.contrib.auth.models import User
 
+from markdown import Markdown
 
 class Tag(models.Model):
     """文章标签"""
@@ -61,3 +62,14 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_md(self):
+        md = Markdown(
+            extensions=[
+                'markdown.extensions.extra',
+                'markdown.extensions.codehilite',
+                'markdown.extensions.toc',
+            ]
+        )
+        md_body = md.convert(self.body)
+        return md_body, md.toc

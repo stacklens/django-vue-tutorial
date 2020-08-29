@@ -26,6 +26,8 @@ from article.serializers import CategorySerializer, CategoryDetailSerializer
 from article.models import Tag
 from article.serializers import TagSerializer
 
+from article.serializers import ArticleDetailSerializer
+
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -57,6 +59,12 @@ class ArticleViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+    def get_serializer_class(self):
+        if self.action == 'list':
+            return ArticleSerializer
+        else:
+            return ArticleDetailSerializer
+
     # filterset_fields = ['author__username', 'title']
 
     # def get_queryset(self):
@@ -68,11 +76,6 @@ class ArticleViewSet(viewsets.ModelViewSet):
     #
     #     return queryset
 
-    # def get_serializer_class(self):
-    #     if self.action == 'list':
-    #         return ArticleListSerializer
-    #     else:
-    #         return ArticleDetailSerializer
 
 # class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 #     queryset = Article.objects.all()

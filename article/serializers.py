@@ -65,8 +65,10 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         ]
 
 
-class ArticleSerializer(serializers.HyperlinkedModelSerializer):
-    """博文序列化器"""
+class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    文章序列化器父类
+    """
     author = UserDescSerializer(read_only=True)
     # category 的嵌套序列化字段
     category = CategorySerializer(read_only=True)
@@ -94,14 +96,74 @@ class ArticleSerializer(serializers.HyperlinkedModelSerializer):
     # category_id 字段的验证器
     def validate_category_id(self, value):
         # 数据存在且传入值不等于None
-        if not Category.objects.filter(id=value).exists() and value != None:
+        if not Category.objects.filter(id=value).exists() and value is not None:
             raise serializers.ValidationError("Category with id {} not exists.".format(value))
 
         return value
 
+
+class ArticleSerializer(ArticleBaseSerializer):
     class Meta:
         model = Article
         fields = '__all__'
+        extra_kwargs = {'body': {'write_only': True}}
+
+
+class ArticleDetailSerializer(ArticleBaseSerializer):
+    body_html = serializers.SerializerMethodField()
+    toc_html = serializers.SerializerMethodField()
+
+    def get_body_html(self, obj):
+        return obj.get_md()[0]
+
+    def get_toc_html(self, obj):
+        return obj.get_md()[1]
+
+    class Meta:
+        model = Article
+        fields = '__all__'
+        extra_kwargs = {'body': {'write_only': True}}
+
+
+
+
+# class ArticleSerializer(serializers.HyperlinkedModelSerializer):
+#     """博文序列化器"""
+#     author = UserDescSerializer(read_only=True)
+#     # category 的嵌套序列化字段
+#     category = CategorySerializer(read_only=True)
+#     # category 的 id 字段，用于创建/更新 category 外键
+#     category_id = serializers.IntegerField(write_only=True, allow_null=True, required=False)
+#     # tag 字段
+#     tags = serializers.SlugRelatedField(
+#         queryset=Tag.objects.all(),
+#         many=True,
+#         required=False,
+#         slug_field='text'
+#     )
+#
+#     # 覆写方法，如果输入的标签不存在则创建它
+#     def to_internal_value(self, data):
+#         tags_data = data.get('tags')
+#
+#         if tags_data is not None:
+#             for text in tags_data:
+#                 if not Tag.objects.filter(text=text).exists():
+#                     Tag.objects.create(text=text)
+#
+#         return super().to_internal_value(data)
+#
+#     # category_id 字段的验证器
+#     def validate_category_id(self, value):
+#         # 数据存在且传入值不等于None
+#         if not Category.objects.filter(id=value).exists() and value != None:
+#             raise serializers.ValidationError("Category with id {} not exists.".format(value))
+#
+#         return value
+#
+#     class Meta:
+#         model = Article
+#         fields = '__all__'
 
 # class ArticleDetailSerializer(serializers.ModelSerializer):
 #     class Meta:
