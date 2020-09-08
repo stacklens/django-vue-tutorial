@@ -1,32 +1,34 @@
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-
 from article.models import Article
 # from article.serializers import ArticleListSerializer
-
 from rest_framework.views import APIView
 from django.http import Http404
 # from article.serializers import ArticleDetailSerializer
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework import generics
-
 # from rest_framework.permissions import IsAdminUser
 from article.permissions import IsAdminUserOrReadOnly
-
 from rest_framework import viewsets
 from article.serializers import ArticleSerializer
-
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-
 from article.models import Category
 from article.serializers import CategorySerializer, CategoryDetailSerializer
-
 from article.models import Tag
 from article.serializers import TagSerializer
-
 from article.serializers import ArticleDetailSerializer
+
+from article.models import Avatar
+from article.serializers import AvatarSerializer
+
+
+class AvatarViewSet(viewsets.ModelViewSet):
+    queryset = Avatar.objects.all()
+    serializer_class = AvatarSerializer
+    permission_classes = [IsAdminUserOrReadOnly]
+
 
 class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
@@ -75,7 +77,6 @@ class ArticleViewSet(viewsets.ModelViewSet):
     #         queryset = queryset.filter(author__username=username)
     #
     #     return queryset
-
 
 # class ArticleDetail(generics.RetrieveUpdateDestroyAPIView):
 #     queryset = Article.objects.all()

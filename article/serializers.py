@@ -4,8 +4,8 @@ from article.models import Article
 from user_info.serializers import UserDescSerializer
 
 from article.models import Category
-
 from article.models import Tag
+from article.models import Avatar
 
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
@@ -65,6 +65,14 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
         ]
 
 
+class AvatarSerializer(serializers.ModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='avatar-detail')
+
+    class Meta:
+        model = Avatar
+        fields = '__all__'
+
+
 class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
     """
     文章序列化器父类
@@ -82,24 +90,67 @@ class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
         slug_field='text'
     )
 
+    avatar = AvatarSerializer(read_only=True)
+    avatar_id = serializers.IntegerField(
+        write_only=True,
+        allow_null=True,
+        required=False
+    )
+
+    # 自定义错误信息
+    default_error_messages = {
+        'incorrect_avatar_id': 'Avatar with id {value} not exists.',
+        'incorrect_category_id': 'Category with id {value} not exists.',
+        'default': 'No more message here..'
+    }
+
+    def check_obj_exists_or_fail(self, model, value, message='default'):
+        if not self.default_error_messages.get(message, None):
+            message = 'default'
+
+        if not model.objects.filter(id=value).exists() and value is not None:
+            self.fail(message, value=value)
+
+    def validate_avatar_id(self, value):
+        self.check_obj_exists_or_fail(
+            model=Avatar,
+            value=value,
+            message='incorrect_avatar_id'
+        )
+
+        # if not Avatar.objects.filter(id=value).exists() and value is not None:
+            # raise serializers.ValidationError("Avatar with id {} not exists.".format(value))
+            # self.fail('incorrect_avatar_id', value=value)
+
+        return value
+
+    # category_id 字段的验证器
+    def validate_category_id(self, value):
+        # 数据存在且传入值不等于None
+        self.check_obj_exists_or_fail(
+            model=Category,
+            value=value,
+            message='incorrect_category_id'
+        )
+
+        # if not Category.objects.filter(id=value).exists() and value is not None:
+            # raise serializers.ValidationError("Category with id {} not exists.".format(value))
+            # self.fail('incorrect_category_id', value=value)
+
+        return value
+
     # 覆写方法，如果输入的标签不存在则创建它
     def to_internal_value(self, data):
         tags_data = data.get('tags')
 
-        if tags_data is not None:
+        if isinstance(tags_data, list):
             for text in tags_data:
                 if not Tag.objects.filter(text=text).exists():
                     Tag.objects.create(text=text)
 
         return super().to_internal_value(data)
 
-    # category_id 字段的验证器
-    def validate_category_id(self, value):
-        # 数据存在且传入值不等于None
-        if not Category.objects.filter(id=value).exists() and value is not None:
-            raise serializers.ValidationError("Category with id {} not exists.".format(value))
 
-        return value
 
 
 class ArticleSerializer(ArticleBaseSerializer):
@@ -123,9 +174,6 @@ class ArticleDetailSerializer(ArticleBaseSerializer):
         model = Article
         fields = '__all__'
         extra_kwargs = {'body': {'write_only': True}}
-
-
-
 
 # class ArticleSerializer(serializers.HyperlinkedModelSerializer):
 #     """博文序列化器"""

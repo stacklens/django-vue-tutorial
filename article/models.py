@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 from markdown import Markdown
 
+
 class Tag(models.Model):
     """文章标签"""
     text = models.CharField(max_length=30)
@@ -28,6 +29,10 @@ class Category(models.Model):
         return self.title
 
 
+class Avatar(models.Model):
+    content = models.ImageField(upload_to='avatar/%Y%m%d')
+
+
 class Article(models.Model):
     """博客文章 model"""
     author = models.ForeignKey(
@@ -40,13 +45,23 @@ class Article(models.Model):
     category = models.ForeignKey(
         Category,
         null=True,
+        blank=True,
         on_delete=models.SET_NULL,
         related_name='articles'
     )
     # 标签
     tags = models.ManyToManyField(
         Tag,
+        blank=True,
         related_name='articles'
+    )
+    # 标题图
+    avatar = models.ForeignKey(
+        Avatar,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='article'
     )
     # 标题
     title = models.CharField(max_length=100)
