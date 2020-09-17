@@ -7,6 +7,8 @@ from article.models import Category
 from article.models import Tag
 from article.models import Avatar
 
+from comment.serializers import CommentSerializer
+
 
 class TagSerializer(serializers.HyperlinkedModelSerializer):
     """标签序列化器"""
@@ -118,10 +120,6 @@ class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
             message='incorrect_avatar_id'
         )
 
-        # if not Avatar.objects.filter(id=value).exists() and value is not None:
-            # raise serializers.ValidationError("Avatar with id {} not exists.".format(value))
-            # self.fail('incorrect_avatar_id', value=value)
-
         return value
 
     # category_id 字段的验证器
@@ -132,10 +130,6 @@ class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
             value=value,
             message='incorrect_category_id'
         )
-
-        # if not Category.objects.filter(id=value).exists() and value is not None:
-            # raise serializers.ValidationError("Category with id {} not exists.".format(value))
-            # self.fail('incorrect_category_id', value=value)
 
         return value
 
@@ -151,8 +145,6 @@ class ArticleBaseSerializer(serializers.HyperlinkedModelSerializer):
         return super().to_internal_value(data)
 
 
-
-
 class ArticleSerializer(ArticleBaseSerializer):
     class Meta:
         model = Article
@@ -161,8 +153,10 @@ class ArticleSerializer(ArticleBaseSerializer):
 
 
 class ArticleDetailSerializer(ArticleBaseSerializer):
+    id = serializers.IntegerField()
     body_html = serializers.SerializerMethodField()
     toc_html = serializers.SerializerMethodField()
+    comments = CommentSerializer(many=True, read_only=True)
 
     def get_body_html(self, obj):
         return obj.get_md()[0]
