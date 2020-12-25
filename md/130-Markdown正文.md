@@ -1,4 +1,4 @@
-博客文章需要排版，反则难以凸显标题、正文、注释等内容之间的区别。作为博客写手来说，比较流行且好用的排版则是 Markdown 语法。
+博客文章需要排版，否则难以凸显标题、正文、注释等内容之间的区别。作为博客写手来说，比较流行且好用的排版则是采用 Markdown 语法。
 
 > 如果你没听过什么是 Markdown ，[这里](https://www.dusaiphoto.com/article/20/) 有一些简单介绍。
 
@@ -118,7 +118,7 @@ class ArticleDetailSerializer(ArticleBaseSerializer):
         extra_kwargs = {'body': {'write_only': True}}
 ```
 
-`body_html` 、 `toc_html` 这两个渲染后的字段是经过加工后的数据，不存在于原始的数据中。为了将这类只读的附加字段添加到接口里，就可以用到 `SerializerMethodField()` 字段了。比如说 `body_html` 字段，它会自动去调用 `get_body_html()` 这个钩子方法，并将其返回结果作为需要序列化的数据。方法中的 `obj` 参数是序列化器获取到的 model 实例，也就是文章对象了。
+`body_html` 、 `toc_html` 这两个渲染后的字段是经过加工后的数据，不存在于原始的数据中。为了将这类只读的附加字段添加到接口里，就可以用到 `SerializerMethodField()` 字段了。比如说 `body_html` 字段，它会自动去调用 `get_body_html()` 方法，并将其返回结果作为需要序列化的数据。方法中的 `obj` 参数是序列化器获取到的 model 实例，也就是文章对象了。
 
 这样就大功告成了，读者自己测试一下，顺利的话详情接口就可以返回 Markdown 渲染后的数据了。
 
