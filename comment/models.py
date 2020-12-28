@@ -18,6 +18,14 @@ class Comment(models.Model):
         related_name='comments'
     )
 
+    parent = models.ForeignKey(
+        'self',
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name='children'
+    )
+
     content = models.TextField()
     created = models.DateTimeField(default=timezone.now)
 
