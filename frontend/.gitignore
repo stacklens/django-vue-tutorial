@@ -1,25 +1,3 @@
-.idea/
-__pycache__/
-*.py[cod]
-*$py.class
-
-*.log
-local_settings.py
-db.sqlite3-journal
-
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-
-collectstatic/
-
-
-# vue stuff
-
 .DS_Store
 node_modules
 /dist
