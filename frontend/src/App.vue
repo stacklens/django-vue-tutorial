@@ -1,22 +1,12 @@
 <template>
 
-    <BlogHeader/>
-
-    <ArticleList/>
-
-    <BlogFooter/>
+    <router-view/>
 
 </template>
 
 <script>
-    import BlogHeader from './components/BlogHeader.vue'
-    import BlogFooter from './components/BlogFooter.vue'
-    import ArticleList from './components/ArticleList.vue'
-
-
     export default {
-        name: 'App',
-        components: { BlogHeader, BlogFooter, ArticleList }
+        name: 'App'
     }
 </script>
 

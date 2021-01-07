@@ -1,4 +1,7 @@
 <template>
+    <br>
+    <br>
+    <br>
     <div id="footer">
         <p>dusaiphoto.com</p>
     </div>

@@ -4,8 +4,17 @@
             <span v-for="tag in article.tags" v-bind:key="tag" class="tag">{{ tag }}</span>
         </div>
 
-        <div class="article-title">
-            {{ article.title }}
+        <!--<div class="article-title">-->
+        <!--{{ article.title }}-->
+        <!--</div>-->
+
+        <div class="a-title-container">
+            <router-link
+                    :to="{ name: 'ArticleDetail', params: { id: article.id }}"
+                    class="article-title"
+            >
+                {{ article.title }}
+            </router-link>
         </div>
 
         <div>{{ formatted_time(article.created) }}</div>
@@ -75,6 +84,9 @@
         font-weight: bolder;
         color: black;
         text-decoration: none;
+    }
+
+    .a-title-container {
         padding: 5px 0 5px 0;
     }
 
@@ -87,4 +99,5 @@
         color: whitesmoke;
         border-radius: 5px;
     }
+
 </style>
