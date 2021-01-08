@@ -20,20 +20,27 @@
         <div>{{ formatted_time(article.created) }}</div>
     </div>
 
-    <!--<div class="paginator">-->
-    <!--<div v-if="info.previous">-->
-    <!--<button v-on:click="change_page('previous')">Previous</button>-->
-    <!--</div>-->
-    <!--<div v-if="info.next">-->
-    <!--<button v-on:click="change_page('next')">Next</button>-->
-    <!--</div>-->
-    <!--</div>-->
+
+    <div id="paginator">
+        <span v-if="is_page_exists('previous')">
+            <router-link :to="{ name: 'Home', query: { page: get_page_param('previous') } }">
+                Prev
+            </router-link>
+        </span>
+        <span class="current-page">
+            {{ get_page_param('current') }}
+        </span>
+        <span v-if="is_page_exists('next')">
+            <router-link :to="{ name: 'Home', query: { page: get_page_param('next') } }">
+                Next
+            </router-link>
+        </span>
+    </div>
 
 </template>
 
 <script>
     import axios from 'axios';
-
 
     export default {
         name: 'ArticleList',
@@ -43,32 +50,56 @@
             }
         },
         mounted() {
-            axios
-                .get('/api/article')
-                .then(response => (this.info = response.data))
+            this.get_article_data()
         },
         methods: {
             formatted_time: function (iso_date_string) {
                 const date = new Date(iso_date_string);
                 return date.toLocaleDateString()
+            },
+            is_page_exists(direction) {
+                if (direction === 'next') {
+                    return this.info.next !== null
+                }
+                return this.info.previous !== null
+            },
+            get_page_param: function (direction) {
+                try {
+                    let url_string;
+                    switch (direction) {
+                        case 'next':
+                            url_string = this.info.next;
+                            break;
+                        case 'previous':
+                            url_string = this.info.previous;
+                            break;
+                        default:
+                            return this.$route.query.page
+                    }
+
+                    const url = new URL(url_string);
+                    return url.searchParams.get('page')
+                }
+                catch (err) {
+                    return
+                }
+            },
+            get_article_data: function () {
+                let url = '/api/article';
+                const page = Number(this.$route.query.page);
+                if (!isNaN(page) && (page !== 0)) {
+                    url = url + '/?page=' + page;
+                }
+
+                axios
+                    .get(url)
+                    .then(response => (this.info = response.data))
             }
-            // change_page: function (direction) {
-            //
-            //     const that = this;
-            //
-            //     const url = {
-            //         'next': function () {
-            //             return that.info.next.get_url()
-            //         },
-            //         'previous': function () {
-            //             return that.info.previous.get_url()
-            //         }
-            //     };
-            //
-            //     axios
-            //         .get(url[direction]())
-            //         .then(response => (this.info = response.data))
-            // }
+        },
+        watch: {
+            $route() {
+                this.get_article_data()
+            }
         }
     }
 
@@ -98,6 +129,22 @@
         background-color: #4e4e4e;
         color: whitesmoke;
         border-radius: 5px;
+    }
+
+    #paginator {
+        text-align: center;
+        padding-top: 50px;
+    }
+
+    a {
+        color: black;
+    }
+
+    .current-page {
+        font-size: x-large;
+        font-weight: bold;
+        padding-left: 10px;
+        padding-right: 10px;
     }
 
 </style>
