@@ -4,10 +4,6 @@
             <span v-for="tag in article.tags" v-bind:key="tag" class="tag">{{ tag }}</span>
         </div>
 
-        <!--<div class="article-title">-->
-        <!--{{ article.title }}-->
-        <!--</div>-->
-
         <div class="a-title-container">
             <router-link
                     :to="{ name: 'ArticleDetail', params: { id: article.id }}"
@@ -23,7 +19,7 @@
 
     <div id="paginator">
         <span v-if="is_page_exists('previous')">
-            <router-link :to="{ name: 'Home', query: { page: get_page_param('previous') } }">
+            <router-link :to="get_path('previous')">
                 Prev
             </router-link>
         </span>
@@ -31,7 +27,7 @@
             {{ get_page_param('current') }}
         </span>
         <span v-if="is_page_exists('next')">
-            <router-link :to="{ name: 'Home', query: { page: get_page_param('next') } }">
+            <router-link :to="get_path('next')">
                 Next
             </router-link>
         </span>
@@ -79,16 +75,46 @@
 
                     const url = new URL(url_string);
                     return url.searchParams.get('page')
+                    // const page = url.searchParams.get('page');
+                    // return (page !== null) ? page : 1
                 }
                 catch (err) {
                     return
                 }
             },
+            get_path: function (direction) {
+                let url = '';
+
+                try {
+                    switch (direction) {
+                        case 'next':
+                            if (this.info.next !== undefined) {
+                                url += (new URL(this.info.next)).search
+                            }
+                            break;
+                        case 'previous':
+                            if (this.info.previous !== undefined) {
+                                url += (new URL(this.info.previous)).search
+                            }
+                            break;
+                    }
+                }
+                catch {
+                    return url
+                }
+
+                return url
+            },
             get_article_data: function () {
                 let url = '/api/article';
-                const page = Number(this.$route.query.page);
-                if (!isNaN(page) && (page !== 0)) {
-                    url = url + '/?page=' + page;
+
+                let params = new URLSearchParams();
+                params.appendIfExists('page', this.$route.query.page);
+                params.appendIfExists('search', this.$route.query.search);
+
+                const paramsString = params.toString();
+                if (paramsString.charAt(0) !== '') {
+                    url += '/?' + paramsString
                 }
 
                 axios
