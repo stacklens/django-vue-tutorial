@@ -11,6 +11,9 @@
             </div>
         </div>
         <hr>
+        <div class="login">
+            <router-link to="/login" class="login-link">登录</router-link>
+        </div>
     </div>
 </template>
 
@@ -26,7 +29,7 @@
             searchArticles() {
                 const text = this.searchText.trim();
                 if (text.charAt(0) !== '') {
-                    this.$router.push({name: 'Home', query: { search: text }})
+                    this.$router.push({name: 'Home', query: {search: text}})
                 }
             }
         }
@@ -34,6 +37,15 @@
 </script>
 
 <style scoped>
+    .login-link {
+        color: black;
+    }
+
+    .login {
+        text-align: right;
+        padding-right: 5px;
+    }
+
     #header {
         text-align: center;
         margin-top: 20px;
