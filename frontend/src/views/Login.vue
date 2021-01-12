@@ -3,7 +3,7 @@
     <BlogHeader/>
 
     <div id="grid">
-        <div id="login">
+        <div id="signup">
             <h3>注册账号</h3>
             <form>
                 <div class="form-elem">
@@ -22,8 +22,23 @@
             </form>
         </div>
 
-        <div>
-            <!-- 留给后面章节的登录 -->
+        <div id="signin">
+            <h3>登录账号</h3>
+            <form>
+                <div class="form-elem">
+                    <span>账号：</span>
+                    <input v-model="signinName" type="text" placeholder="输入用户名">
+                </div>
+
+                <div class="form-elem">
+                    <span>密码：</span>
+                    <input v-model="signinPwd" type="password" placeholder="输入密码">
+                </div>
+
+                <div class="form-elem">
+                    <button v-on:click.prevent="signin">登录</button>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -45,6 +60,8 @@
             return {
                 signupName: '',
                 signupPwd: '',
+                signinName: '',
+                signinPwd: '',
                 signupResponse: null,
             }
         },
@@ -70,6 +87,27 @@
 
                     });
             },
+            signin() {
+                const that = this;
+                axios
+                    .post('/api/token/', {
+                        username: that.signinName,
+                        password: that.signinPwd,
+                    })
+                    .then(function (response) {
+                        const storage = localStorage;
+                        // Date.parse(...) 返回1970年1月1日UTC以来的毫秒数
+                        const expiredTime = Date.parse(response.headers.date) + 60000;
+                        // 设置 localStorage
+                        storage.setItem('access.myblog', response.data.access);
+                        storage.setItem('refresh.myblog', response.data.refresh);
+                        storage.setItem('expiredTime.myblog', expiredTime);
+                        storage.setItem('username.myblog', that.signinName);
+                        // 路由跳转
+                        that.$router.push({name: 'Home'});
+                    })
+                // .catch(...)
+            },
         }
     }
 </script>
@@ -81,7 +119,11 @@
         grid-template-columns: 1fr 1fr;
     }
 
-    #login {
+    #signup {
+        text-align: center;
+    }
+
+    #signin {
         text-align: center;
     }
 
