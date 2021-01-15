@@ -1,6 +1,6 @@
 <template>
 
-    <BlogHeader/>
+    <BlogHeader ref="header"/>
 
     <div id="user-center">
 
@@ -101,6 +101,8 @@
                                 const name = response.data.username;
                                 storage.setItem('username.myblog', name);
                                 that.$router.push({name: 'UserCenter', params: {username: name}});
+
+                                that.$refs.header.refresh();
                             })
                     });
 

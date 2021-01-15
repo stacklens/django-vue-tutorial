@@ -44,6 +44,9 @@
             logout() {
                 localStorage.clear();
                 window.location.reload(false);
+            },
+            refresh() {
+                this.username = localStorage.getItem('username.myblog');
             }
         }
     }
