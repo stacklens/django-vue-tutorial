@@ -34,6 +34,7 @@ class TagViewSet(viewsets.ModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = None
 
 
 class CategoryViewSet(viewsets.ModelViewSet):
@@ -41,6 +42,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     permission_classes = [IsAdminUserOrReadOnly]
+    pagination_class = None
 
     def get_serializer_class(self):
         if self.action == 'list':

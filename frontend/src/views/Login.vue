@@ -103,8 +103,16 @@
                         storage.setItem('refresh.myblog', response.data.refresh);
                         storage.setItem('expiredTime.myblog', expiredTime);
                         storage.setItem('username.myblog', that.signinName);
-                        // 路由跳转
-                        that.$router.push({name: 'Home'});
+
+                        // 是否为管理员
+                        axios
+                            .get('/api/user/' + that.signinName + '/')
+                            .then(function (response) {
+                                storage.setItem('isSuperuser.myblog', response.data.is_superuser);
+                                // 路由跳转
+                                that.$router.push({name: 'Home'});
+                            });
+                            // .catch(...)
                     })
                 // .catch(...)
             },

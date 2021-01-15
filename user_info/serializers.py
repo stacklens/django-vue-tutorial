@@ -24,10 +24,12 @@ class UserRegisterSerializer(serializers.ModelSerializer):
             'url',
             'id',
             'username',
-            'password'
+            'password',
+            'is_superuser'
         ]
         extra_kwargs = {
-            'password': {'write_only': True}
+            'password': {'write_only': True},
+            'is_superuser': {'read_only': True}
         }
 
     def create(self, validated_data):

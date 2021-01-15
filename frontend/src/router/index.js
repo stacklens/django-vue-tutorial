@@ -3,6 +3,7 @@ import Home from "@/views/Home.vue";
 import ArticleDetail from "@/views/ArticleDetail.vue";
 import Login from "@/views/Login.vue";
 import UserCenter from "@/views/UserCenter.vue";
+import ArticleCreate from "@/views/ArticleCreate.vue";
 
 const routes = [
     {
@@ -24,6 +25,11 @@ const routes = [
         path: "/user/:username",
         name: "UserCenter",
         component: UserCenter
+    },
+    {
+        path: "/article/create",
+        name: "ArticleCreate",
+        component: ArticleCreate
     },
 ];
 
