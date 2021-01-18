@@ -97,7 +97,7 @@
                     .then(function (response) {
                         const storage = localStorage;
                         // Date.parse(...) 返回1970年1月1日UTC以来的毫秒数
-                        const expiredTime = Date.parse(response.headers.date) + 60000;
+                        const expiredTime = Date.parse(response.headers.date) + 60 * 100 * 1000;
                         // 设置 localStorage
                         storage.setItem('access.myblog', response.data.access);
                         storage.setItem('refresh.myblog', response.data.refresh);

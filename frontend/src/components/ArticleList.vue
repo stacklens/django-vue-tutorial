@@ -1,6 +1,12 @@
 <template>
     <div v-for="article in info.results" v-bind:key="article.url" id="articles">
         <div>
+            <span
+                    v-if="article.category !== null"
+                    class="category"
+            >
+                {{article.category.title}}
+            </span>
             <span v-for="tag in article.tags" v-bind:key="tag" class="tag">{{ tag }}</span>
         </div>
 
@@ -145,6 +151,17 @@
 
     .a-title-container {
         padding: 5px 0 5px 0;
+    }
+
+    .category {
+        padding: 5px 10px 5px 10px;
+        margin: 5px 5px 5px 0;
+        font-family: Georgia, Arial, sans-serif;
+        font-size: small;
+        background-color: darkred;
+        color: whitesmoke;
+        border-radius: 15px;
+
     }
 
     .tag {

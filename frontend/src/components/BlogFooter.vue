@@ -3,7 +3,7 @@
     <br>
     <br>
     <div id="footer">
-        <p>dusaiphoto.com</p>
+        <p>www.dusaiphoto.com</p>
     </div>
 </template>
 
