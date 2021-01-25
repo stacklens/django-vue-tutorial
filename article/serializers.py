@@ -168,7 +168,6 @@ class ArticleDetailSerializer(ArticleBaseSerializer):
     class Meta:
         model = Article
         fields = '__all__'
-        extra_kwargs = {'body': {'write_only': True}}
 
 # class ArticleSerializer(serializers.HyperlinkedModelSerializer):
 #     """博文序列化器"""
