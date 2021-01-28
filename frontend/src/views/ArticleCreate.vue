@@ -2,6 +2,17 @@
     <BlogHeader/>
     <div id="article-create">
         <h3>发表文章</h3>
+
+        <form id="image_form">
+            <div class="form-elem">
+                <span>图片：</span>
+                <input
+                        v-on:change="onFileChange"
+                        type="file"
+                        id="file"
+                >
+            </div>
+        </form>
         <form>
             <div class="form-elem">
                 <span>标题：</span>
@@ -63,6 +74,9 @@
                 selectedCategory: null,
                 // 标签
                 tags: '',
+
+                // 标题图
+                avatarID: null,
             }
         },
         mounted() {
@@ -72,6 +86,24 @@
                 .then(response => this.categories = response.data)
         },
         methods: {
+            onFileChange(e) {
+                const file = e.target.files[0];
+                // this.imageUrl = URL.createObjectURL(file);
+
+
+                let formData = new FormData();
+                formData.append("content", file);
+
+                // 省去鉴权和错误处理的部分
+                axios
+                    .post('/api/avatar/', formData, {
+                        headers: {
+                            'Content-Type': 'multipart/form-data',
+                            'Authorization': 'Bearer ' + localStorage.getItem('access.myblog')
+                        }
+                    })
+                    .then( response => this.avatarID = response.data.id)
+            },
             // 根据分类是否被选中，按钮的颜色发生变化
             categoryStyle(category) {
                 if (this.selectedCategory !== null && category.id === this.selectedCategory.id) {
@@ -105,6 +137,10 @@
                                     title: that.title,
                                     body: that.body,
                                 };
+
+                                // 添加标题图
+                                data.avatar_id = that.avatarID;
+
                                 // 添加分类
                                 if (that.selectedCategory) {
                                     data.category_id = that.selectedCategory.id

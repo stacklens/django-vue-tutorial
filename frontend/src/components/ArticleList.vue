@@ -1,25 +1,33 @@
 <template>
     <div v-for="article in info.results" v-bind:key="article.url" id="articles">
-        <div>
-            <span
-                    v-if="article.category !== null"
-                    class="category"
+        <div class="grid" :style="gridStyle(article)">
+            <div
+                    class="image-container"
             >
-                {{article.category.title}}
-            </span>
-            <span v-for="tag in article.tags" v-bind:key="tag" class="tag">{{ tag }}</span>
-        </div>
+                <img :src="imageIfExists(article)" alt="" class="image">
+            </div>
 
-        <div class="a-title-container">
-            <router-link
-                    :to="{ name: 'ArticleDetail', params: { id: article.id }}"
-                    class="article-title"
-            >
-                {{ article.title }}
-            </router-link>
+            <div>
+                <div>
+                    <span
+                            v-if="article.category !== null"
+                            class="category"
+                    >
+                        {{article.category.title}}
+                    </span>
+                    <span v-for="tag in article.tags" v-bind:key="tag" class="tag">{{ tag }}</span>
+                </div>
+                <div class="a-title-container">
+                    <router-link
+                            :to="{ name: 'ArticleDetail', params: { id: article.id }}"
+                            class="article-title"
+                    >
+                        {{ article.title }}
+                    </router-link>
+                </div>
+                <div>{{ formatted_time(article.created) }}</div>
+            </div>
         </div>
-
-        <div>{{ formatted_time(article.created) }}</div>
     </div>
 
 
@@ -55,6 +63,19 @@
             this.get_article_data()
         },
         methods: {
+            imageIfExists(article) {
+                if (article.avatar) {
+                    return article.avatar.content
+                }
+            },
+            gridStyle(article) {
+                if (article.avatar) {
+                    return {
+                        display: 'grid',
+                        gridTemplateColumns: '1fr 4fr'
+                    }
+                }
+            },
             formatted_time: function (iso_date_string) {
                 const date = new Date(iso_date_string);
                 return date.toLocaleDateString()
@@ -138,6 +159,20 @@
 </script>
 
 <style scoped>
+    .image {
+        width: 180px;
+        border-radius: 10px;
+        box-shadow: darkslategrey 0 0 12px;
+    }
+
+    .image-container {
+        width: 200px;
+    }
+
+    .grid {
+        padding-bottom: 10px;
+    }
+
     #articles {
         padding: 10px;
     }
