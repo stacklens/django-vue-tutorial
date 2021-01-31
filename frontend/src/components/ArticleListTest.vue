@@ -52,7 +52,10 @@
 <script>
     import axios from 'axios';
 
-    import { ref } from 'vue'
+    import { ref, onMounted, watch } from 'vue'
+    import { useRoute } from 'vue-router'
+
+    // import get_article_data from '@/composables/getArticleData.js'
 
     export default {
         name: 'ArticleListTest',
@@ -61,8 +64,31 @@
         setup() {
             const info = ref('');
 
+            const route = useRoute();
+
+            const get_article_data = function () {
+                let url = '/api/article';
+
+                let params = new URLSearchParams();
+                params.appendIfExists('page', route.query.page);
+                params.appendIfExists('search', route.query.search);
+
+                const paramsString = params.toString();
+                if (paramsString.charAt(0) !== '') {
+                    url += '/?' + paramsString
+                }
+
+                axios
+                    .get(url)
+                    .then(response => (info.value = response.data))
+            };
+
+            onMounted(get_article_data);
+            watch(route, get_article_data);
+
             return {
                 info,
+                get_article_data
             }
         },
 
@@ -72,9 +98,9 @@
         //         info: ''
         //     }
         // },
-        mounted() {
-            this.get_article_data()
-        },
+        // mounted() {
+        //     this.get_article_data()
+        // },
         methods: {
             imageIfExists(article) {
                 if (article.avatar) {
@@ -143,28 +169,28 @@
 
                 return url
             },
-            get_article_data: function () {
-                let url = '/api/article';
-
-                let params = new URLSearchParams();
-                params.appendIfExists('page', this.$route.query.page);
-                params.appendIfExists('search', this.$route.query.search);
-
-                const paramsString = params.toString();
-                if (paramsString.charAt(0) !== '') {
-                    url += '/?' + paramsString
-                }
-
-                axios
-                    .get(url)
-                    .then(response => (this.info = response.data))
-            }
+            // get_article_data: function () {
+            //     let url = '/api/article';
+            //
+            //     let params = new URLSearchParams();
+            //     params.appendIfExists('page', this.$route.query.page);
+            //     params.appendIfExists('search', this.$route.query.search);
+            //
+            //     const paramsString = params.toString();
+            //     if (paramsString.charAt(0) !== '') {
+            //         url += '/?' + paramsString
+            //     }
+            //
+            //     axios
+            //         .get(url)
+            //         .then(response => (this.info = response.data))
+            // }
         },
-        watch: {
-            $route() {
-                this.get_article_data()
-            }
-        }
+        // watch: {
+        //     $route() {
+        //         this.get_article_data()
+        //     }
+        // }
     }
 
 </script>
