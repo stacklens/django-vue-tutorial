@@ -19,6 +19,8 @@
         </div>
     </div>
 
+    <Comments :article="article" />
+
     <BlogFooter/>
 
 </template>
@@ -26,13 +28,14 @@
 <script>
     import BlogHeader from '@/components/BlogHeader.vue'
     import BlogFooter from '@/components/BlogFooter.vue'
+    import Comments from '@/components/Comments.vue'
 
     import axios from 'axios';
 
 
     export default {
         name: 'ArticleDetail',
-        components: {BlogHeader, BlogFooter},
+        components: {BlogHeader, BlogFooter, Comments},
         data: function () {
             return {
                 article: null

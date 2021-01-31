@@ -1,48 +1,3 @@
-经过几个章节的折腾，文章的增删改查也完成得差不多了，这章紧接着开发最后一个大的模块：**评论**。
-
-## 入口与Props
-
-作为一个普通的博客，评论通常位于**文章详情的末尾**，以便读者发表对博主的赞赏之情。又因为评论模块和文章模块本身没太多交联，比较独立，因此也没必要让他们的代码搅在一起。
-
-因此修改 `ArticleDetail.vue` ，新增一个 `Comments` **组件**：（注意此组件还没写）
-
-```html
-<!-- frontend/src/views/ArticleDetail.vue -->
-
-<template>
-
-    ...
-
-    <Comments :article="article" />
-
-    <BlogFooter/>
-
-</template>
-
-<script>
-    ...
-    import Comments from '@/components/Comments.vue'
-
-    export default {
-        ...
-        components: {BlogHeader, BlogFooter, Comments},
-        ...
-    }
-</script>
-...
-```
-
-Props 可以是数字、字符串等原生类型，也可以绑定如 `article` 这类自定义**对象**。传递文章对象是为了让评论组件获取到相关联的所有评论。
-
-## 评论组件
-
-接下来正式写评论组件。
-
-新建 `frontend/src/components/Comments.vue` ，写入代码：
-
-```html
-<!-- frontend/src/components/Comments.vue -->
-
 <template>
     <br>
     <br>
@@ -213,29 +168,3 @@ Props 可以是数字、字符串等原生类型，也可以绑定如 `article` 
         padding: 15px;
     }
 </style>
-```
-
-实际上没有啥新知识，都是前面章节技巧的混合：
-
-- 组件通过 `Props` 获取了**文章对象**，利用 `watch` 监听此对象并实时更新关联评论。注意这里**不能**通过 `mounted()` 去实现此逻辑，原因是因为挂载 Vue 实例时 `article` 的**初始值**是 `null`。
-- 提交评论用 `submit()` 方法，后端若返回成功则将最新的评论**更新**到 `this.comments` 中。
-- `replyTo()` 方法用于记录评论的父级（即“评论的评论”），当然没有也是可以的。
-- `formatted_time()` 方法见过好几回了，用于格式化日期。
-
-发表评论这就搞定了！来**看看效果**吧。
-
-在文章详情页发表评论如下：
-
-![](https://blog.dusaiphoto.com/drf-p310-1.png)
-
-虽然简陋，但该有的东西都有，剩下的就是扩充和美化的工作了。
-
-## 收尾工作
-
-评论的删改的开发，由于和前面章节所用的技巧高度重合，就不赘述了，留给读者自行研究。
-
-有的读者可能发现了，教程虽然使用了 Vue 3，但是里面用到的技巧跟 Vue 2 里基本没什么不同啊，甚至可以非常顺滑的互相迁移。**那 Vue 3 究竟更新了什么？**
-
-下面一章让我们进入 Vue 3 最重要的新功能之一：组合式 API。
-
-> 与 Vue 3 的**组合式 API** 相对应，前面这么多章节都使用了 Vue 2 也有的**选项式 API**。为什么花这么多篇幅去讲选项式 API？笔者认为对新手来说这是必要的基础，大体上也更容易入门和理解。Vue 2 到 Vue 3 的迁移还有一个漫长的过程，掌握好基础，持续摸索高阶技巧，是稳赚不赔的生意。
