@@ -50,49 +50,44 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
 
-    import { ref, onMounted, watch } from 'vue'
-    import { useRoute } from 'vue-router'
-
-    // import get_article_data from '@/composables/getArticleData.js'
+    import {ref, onMounted, watch} from 'vue'
+    import {useRoute} from 'vue-router'
+    import getArticleData from '@/composables/getArticleData.js'
 
     export default {
         name: 'ArticleListTest',
 
+        //
+        //
         // 组合式 A 章节内容
+        //
+        //
+
         setup() {
             const info = ref('');
 
             const route = useRoute();
 
-            const get_article_data = function () {
-                let url = '/api/article';
-
-                let params = new URLSearchParams();
-                params.appendIfExists('page', route.query.page);
-                params.appendIfExists('search', route.query.search);
-
-                const paramsString = params.toString();
-                if (paramsString.charAt(0) !== '') {
-                    url += '/?' + paramsString
-                }
-
-                axios
-                    .get(url)
-                    .then(response => (info.value = response.data))
+            const get_article_data = () => {
+                getArticleData(info, route)
             };
 
             onMounted(get_article_data);
             watch(route, get_article_data);
 
             return {
-                info,
-                get_article_data
+                info
             }
         },
 
+        //
+        //
         // 选项式 API 章节内容
+        //
+        //
+
         // data: function () {
         //     return {
         //         info: ''
