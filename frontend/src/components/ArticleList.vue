@@ -50,110 +50,160 @@
 </template>
 
 <script>
-    import axios from 'axios';
+    // import axios from 'axios';
+
+    import {ref} from 'vue'
+    import {useRoute} from 'vue-router'
+    import getArticleData from '@/composables/getArticleData.js'
+    import pagination from '@/composables/pagination.js'
+    import articleGrid from '@/composables/articleGrid.js'
+    import formattedTime from '@/composables/formattedTime.js'
 
     export default {
         name: 'ArticleList',
-        data: function () {
+
+        //
+        //
+        // 组合式 A 章节内容
+        // 教程末尾两个章节重构的代码
+        // 没看到此章的读者请看下面被注释部分的代码
+        //
+        //
+
+        setup() {
+            const info = ref('');
+            const route = useRoute();
+
+            getArticleData(info, route);
+
+            const {
+                is_page_exists,
+                get_page_param,
+                get_path
+            } = pagination(info, route);
+
+            const {
+                imageIfExists,
+                gridStyle
+            } = articleGrid();
+
+            const formatted_time = formattedTime;
+
             return {
-                info: ''
+                info,
+                is_page_exists,
+                get_page_param,
+                get_path,
+                imageIfExists,
+                gridStyle,
+                formatted_time,
             }
         },
-        mounted() {
-            this.get_article_data()
-        },
-        methods: {
-            imageIfExists(article) {
-                if (article.avatar) {
-                    return article.avatar.content
-                }
-            },
-            gridStyle(article) {
-                if (article.avatar) {
-                    return {
-                        display: 'grid',
-                        gridTemplateColumns: '1fr 4fr'
-                    }
-                }
-            },
-            formatted_time: function (iso_date_string) {
-                const date = new Date(iso_date_string);
-                return date.toLocaleDateString()
-            },
-            is_page_exists(direction) {
-                if (direction === 'next') {
-                    return this.info.next !== null
-                }
-                return this.info.previous !== null
-            },
-            get_page_param: function (direction) {
-                try {
-                    let url_string;
-                    switch (direction) {
-                        case 'next':
-                            url_string = this.info.next;
-                            break;
-                        case 'previous':
-                            url_string = this.info.previous;
-                            break;
-                        default:
-                            return this.$route.query.page
-                    }
 
-                    const url = new URL(url_string);
-                    return url.searchParams.get('page')
-                    // const page = url.searchParams.get('page');
-                    // return (page !== null) ? page : 1
-                }
-                catch (err) {
-                    return
-                }
-            },
-            get_path: function (direction) {
-                let url = '';
+        //
+        //
+        // 选项式 API 章节内容
+        //
+        //
 
-                try {
-                    switch (direction) {
-                        case 'next':
-                            if (this.info.next !== undefined) {
-                                url += (new URL(this.info.next)).search
-                            }
-                            break;
-                        case 'previous':
-                            if (this.info.previous !== undefined) {
-                                url += (new URL(this.info.previous)).search
-                            }
-                            break;
-                    }
-                }
-                catch {
-                    return url
-                }
-
-                return url
-            },
-            get_article_data: function () {
-                let url = '/api/article';
-
-                let params = new URLSearchParams();
-                params.appendIfExists('page', this.$route.query.page);
-                params.appendIfExists('search', this.$route.query.search);
-
-                const paramsString = params.toString();
-                if (paramsString.charAt(0) !== '') {
-                    url += '/?' + paramsString
-                }
-
-                axios
-                    .get(url)
-                    .then(response => (this.info = response.data))
-            }
-        },
-        watch: {
-            $route() {
-                this.get_article_data()
-            }
-        }
+        // data: function () {
+        //     return {
+        //         info: ''
+        //     }
+        // },
+        // mounted() {
+        //     this.get_article_data()
+        // },
+        // methods: {
+            // imageIfExists(article) {
+            //     if (article.avatar) {
+            //         return article.avatar.content
+            //     }
+            // },
+            // gridStyle(article) {
+            //     if (article.avatar) {
+            //         return {
+            //             display: 'grid',
+            //             gridTemplateColumns: '1fr 4fr'
+            //         }
+            //     }
+            // },
+            // formatted_time: function (iso_date_string) {
+            //     const date = new Date(iso_date_string);
+            //     return date.toLocaleDateString()
+            // },
+            // is_page_exists(direction) {
+            //     if (direction === 'next') {
+            //         return this.info.next !== null
+            //     }
+            //     return this.info.previous !== null
+            // },
+            // get_page_param: function (direction) {
+            //     try {
+            //         let url_string;
+            //         switch (direction) {
+            //             case 'next':
+            //                 url_string = this.info.next;
+            //                 break;
+            //             case 'previous':
+            //                 url_string = this.info.previous;
+            //                 break;
+            //             default:
+            //                 return this.$route.query.page
+            //         }
+            //
+            //         const url = new URL(url_string);
+            //         return url.searchParams.get('page')
+            //     }
+            //     catch (err) {
+            //         return
+            //     }
+            // },
+            // get_path: function (direction) {
+            //     let url = '';
+            //
+            //     try {
+            //         switch (direction) {
+            //             case 'next':
+            //                 if (this.info.next !== undefined) {
+            //                     url += (new URL(this.info.next)).search
+            //                 }
+            //                 break;
+            //             case 'previous':
+            //                 if (this.info.previous !== undefined) {
+            //                     url += (new URL(this.info.previous)).search
+            //                 }
+            //                 break;
+            //         }
+            //     }
+            //     catch {
+            //         return url
+            //     }
+            //
+            //     return url
+            // },
+            // get_article_data: function () {
+            //     let url = '/api/article';
+            //
+            //     let params = new URLSearchParams();
+            //     params.appendIfExists('page', this.$route.query.page);
+            //     params.appendIfExists('search', this.$route.query.search);
+            //
+            //     const paramsString = params.toString();
+            //     if (paramsString.charAt(0) !== '') {
+            //         url += '/?' + paramsString
+            //     }
+            //
+            //     axios
+            //         .get(url)
+            //         .then(response => (this.info = response.data))
+            // }
+        // },
+        // watch: {
+        //     $route() {
+        //         this.get_article_data()
+        //     }
+        // }
     }
 
 </script>
