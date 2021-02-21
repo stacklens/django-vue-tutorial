@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {onMounted, watch} from 'vue'
+import {onMounted} from 'vue'
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -10,7 +10,7 @@ export default function getArticleData(info, route) {
 
 
         console.log('start sleep');
-        await sleep(3000);
+        await sleep(2000);
         console.log('end sleep');
 
 
@@ -27,10 +27,14 @@ export default function getArticleData(info, route) {
 
         const response = await axios.get(url);
 
+        console.log('start sleep');
+        await sleep(2000);
+        console.log('end sleep');
+
         info.value = response.data;
     };
 
     onMounted(getData);
 
-    watch(route, getData);
+    // watch(route, getData);
 }
