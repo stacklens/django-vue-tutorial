@@ -1,8 +1,19 @@
 import axios from 'axios';
 import {onMounted, watch} from 'vue'
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 export default function getArticleData(info, route) {
     const getData = async () => {
+
+
+        console.log('start sleep');
+        await sleep(3000);
+        console.log('end sleep');
+
+
         let url = '/api/article';
 
         let params = new URLSearchParams();
