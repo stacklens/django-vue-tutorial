@@ -1,18 +1,10 @@
 import axios from 'axios';
 import {onMounted, watch} from 'vue'
 
-// function sleep(ms) {
-//     return new Promise(resolve => setTimeout(resolve, ms));
-// }
-
 export default function getArticleData(info, route, page) {
     const getData = async () => {
 
-
         const queryPage = route.query.page !== undefined ? parseInt(route.query.page) : 1;
-
-        console.log(page.value, queryPage);
-
         if (page.value === queryPage) {
             return
         }
