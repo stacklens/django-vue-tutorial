@@ -1,11 +1,11 @@
 import axios from 'axios';
 import {onMounted, watch} from 'vue'
 
-export default function getArticleData(info, route, page) {
+export default function getArticleData(info, route, kwargs) {
     const getData = async () => {
 
         const queryPage = route.query.page !== undefined ? parseInt(route.query.page) : 1;
-        if (page.value === queryPage) {
+        if (kwargs.value.page === queryPage && kwargs.value.searchText === route.query.search) {
             return
         }
 
@@ -24,7 +24,8 @@ export default function getArticleData(info, route, page) {
 
 
         info.value = response.data;
-        page.value = queryPage;
+        kwargs.value.page = queryPage;
+        kwargs.value.searchText = route.query.search;
     };
 
     onMounted(getData);
