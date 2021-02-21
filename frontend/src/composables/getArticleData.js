@@ -1,18 +1,21 @@
 import axios from 'axios';
-import {onMounted} from 'vue'
+import {onMounted, watch} from 'vue'
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
+// function sleep(ms) {
+//     return new Promise(resolve => setTimeout(resolve, ms));
+// }
 
-export default function getArticleData(info, route) {
+export default function getArticleData(info, route, page) {
     const getData = async () => {
 
 
-        console.log('start sleep');
-        await sleep(2000);
-        console.log('end sleep');
+        const queryPage = route.query.page !== undefined ? parseInt(route.query.page) : 1;
 
+        console.log(page.value, queryPage);
+
+        if (page.value === queryPage) {
+            return
+        }
 
         let url = '/api/article';
 
@@ -27,14 +30,12 @@ export default function getArticleData(info, route) {
 
         const response = await axios.get(url);
 
-        console.log('start sleep');
-        await sleep(2000);
-        console.log('end sleep');
 
         info.value = response.data;
+        page.value = queryPage;
     };
 
     onMounted(getData);
 
-    // watch(route, getData);
+    watch(route, getData);
 }

@@ -74,7 +74,8 @@
             const info = ref('');
             const route = useRoute();
 
-            getArticleData(info, route);
+            const page = ref(0);
+            getArticleData(info, route, page);
 
             const {
                 is_page_exists,
