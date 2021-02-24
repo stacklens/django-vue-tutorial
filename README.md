@@ -9,7 +9,7 @@
 
 教程基于 Django 3 和 Vue 3 。
 
-> 教程基于 Win 10 系统。读者用 Mac 或 Linux 也 OK。
+> 于 Win 10 系统开发。用 Mac 或 Linux 也 OK。
 
 ## 教程特点
 - **教程全中文、全免费**
@@ -17,11 +17,11 @@
 - **基于 Django 3 和 Vue 3**
 
 ## 适合人群
-**笔者会尽量写得浅显易懂，但学习本教程是需要一定的语言基础：**
+**学习本教程需要：**
 
 - 具备 Django 传统开发基础知识
 - 具备 Javascript 语法基础知识
-- 有热情，每天能抽出一个小时学习
+- 每天能抽出一个小时学习
 
 总结为一句话，本教程的面向人群：**掌握 Django 基础和 Javascript 语法基础的入门开发者。**
 
@@ -232,7 +232,7 @@
 ## 运行示例代码
 首先确保你的电脑已经安装 Python 3.8 、npm 6.14 或以上的版本。
 
-下载项目后，将配置文件 `drf_vue_blog/settings.py` 中的开发模式打开：
+下载项目后，修改配置文件 `drf_vue_blog/settings.py` ：
 
 ```python
 # drf_vue_blog/settings.py
