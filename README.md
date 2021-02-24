@@ -7,7 +7,9 @@
 
 本教程是一个面向入门者的**前后端分离**模式开发个人博客的教程，目的是快速搭建现代化的个人博客网站。
 
-教程基于 Django 3 和 Vue 3。
+教程基于 Django 3 和 Vue 3 。
+
+> 教程基于 Win 10 系统。读者用 Mac 或 Linux 也 OK。
 
 ## 教程特点
 - **教程全中文、全免费**
@@ -25,9 +27,9 @@
 
 如果你是老读者，那么应该已经看过我的 Django 传统开发入门教程了：
 
-- [博客传送门](https://www.dusaiphoto.com/article/2/)
+- [博客传送门](https://www.dusaiphoto.com/article/103/)
 - [GitHub传送门](https://github.com/stacklens/django-vue-tutorial)
-- [知乎传送门](https://www.zhihu.com/column/django-blog)
+- [知乎传送门](https://www.zhihu.com/column/c_1347682856706105344)
 
 > 此外微信公众号也同步更新，搜“杜赛说编程”即可。
 
@@ -48,217 +50,169 @@
 > 有的读者喜欢边学边查，这样也可以，请根据自身习惯调整。
 
 ## 教程导航
-**01** - [前言](https://github.com/stacklens/django-vue-tutorial/blob/master/md/01.前言.md)
+**01** - [前言](https://github.com/stacklens/django-vue-tutorial/blob/master/md/10-前言.md)
 
-- Django 简介 / 资源列表 / 提问须知
+- 教程简介 / 资源列表 / 许可协议
 
-**02** - [教程的开发环境](https://github.com/stacklens/django-vue-tutorial/blob/master/md/02.教程的开发环境.md)
+**02** - [搭建开发环境](https://github.com/stacklens/django-vue-tutorial/blob/master/md/20-搭建开发环境.md)
 
 - 环境简介 / 安装 Python / 配置虚拟环境
 - 安装 Django / 创建 Django 项目 / 运行 Django 服务器
 - 代码编辑器 / 浏览器选择
 
-**03** - [创建 APP](https://github.com/stacklens/django-vue-tutorial/blob/master/md/03.创建app.md)
+**03** - [drf初识](https://github.com/stacklens/django-vue-tutorial/blob/master/md/30-drf初识.md)
 
-- 认识项目结构 / 注册 APP / 配置访问路径
+- 创建 Model 结构 / 初始序列化
 
-**04** - [编写 Model](https://github.com/stacklens/django-vue-tutorial/blob/master/md/04.编写Model.md)
+**04** - [序列化器与视图函数](https://github.com/stacklens/django-vue-tutorial/blob/master/md/40-序列化器与视图函数.md)
 
-- Django 模式简介 / 模型简介
-- 编写 Model / Model 字段分解
-- 数据迁移
+- ModelSerializer
+- APIView
+- 内容协商
 
-**05** - [View 视图初探](https://github.com/stacklens/django-vue-tutorial/blob/master/md/05.View视图初探.md)
+**05** - [基于类的视图](https://github.com/stacklens/django-vue-tutorial/blob/master/md/50-基于类的视图.md)
 
-- 第一个视图
-- 网站后台概念 / 创建管理员 / 注册 app
-- 检视数据库
+- 类视图 / 通用视图
+- 资源更新
 
-**06** - [View 及 Template](https://github.com/stacklens/django-vue-tutorial/blob/master/md/06.View及Template.md)
+**06** - [限制用户权限](https://github.com/stacklens/django-vue-tutorial/blob/master/md/60-限制用户权限.md)
 
-- 改写视图函数
-- 编写模板 / 错误分析
-- Debug 工具
+- 权限控制
 
-**07** - [使用Bootstrap改写模板](https://github.com/stacklens/django-vue-tutorial/blob/master/md/07.使用Bootstrap改写模板.md)
+**07** - [文章关联用户](https://github.com/stacklens/django-vue-tutorial/blob/master/md/70-文章关联用户.md)
 
-- 配置 Bootstrap 4
-- 编写模板 / 模板继承
+- 外键序列化
+- 序列化嵌套 / 字段遮蔽
 
-**08** - [编写文章详情页面](https://github.com/stacklens/django-vue-tutorial/blob/master/md/08.编写文章详情页面.md)
+**08** - [超链接与分页](https://github.com/stacklens/django-vue-tutorial/blob/master/md/80-超链接与分页.md)
 
-- 详情页面视图 / 详情页面模板
-- 优化网页入口 / 参数传递
+- 超链接字段
+- 分页
 
-**09** - [使用Markdown书写文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/09.使用Markdown书写文章.md)
+**09** - [视图集](https://github.com/stacklens/django-vue-tutorial/blob/master/md/90-视图集.md)
 
-- 安装 Markdown
-- 在视图中使用 Markdown / 模板渲染
-- 代码高亮 / 故障排查 / 自定义样式
+- 视图集简介
+- Router
 
-**10** - [发布新文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/10.发布新的文章.md)
+**10** - [过滤文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/100-过滤文章.md)
 
-- 表单类 / 处理创建请求 / 获取数据
-- csrf_token / 模板中的表单 / 优化写文章入口
+- 参数过滤 / 通用过滤
 
-**11** - [删除文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/11.删除文章.md)
+**11** - [文章分类](https://github.com/stacklens/django-vue-tutorial/blob/master/md/110-文章分类.md)
 
-- get 方式删除文章 / post 方式删除文章
-- 弹窗功能 / 再谈 CSRF
+- 覆写方法
+- 自定义验证器
+- 主键字段 / 序列化器选择
 
-**12** - [更新文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/12.更新文章.md)
+**12** - [文章标签](https://github.com/stacklens/django-vue-tutorial/blob/master/md/120-文章标签.md)
 
-- 更新文章视图 / 编写模板 / url 和入口
+- 多对多模型
+- 验证器 / to_internal_value
+- 覆写 create 方法 / slugField
 
-**13** - [用户的登录和登出](https://github.com/stacklens/django-vue-tutorial/blob/master/md/13.用户的登录和退出.md)
+**13** - [Markdown正文](https://github.com/stacklens/django-vue-tutorial/blob/master/md/130-Markdown正文.md)
 
-- 用户管理简介 / 再谈表单类
-- 登录视图 / Session 介绍 / 登录模板 / url 及其他设置
-- 用户的登出
+- Model 自定义方法
+- 序列化器继承
 
-**14** - [用户的注册](https://github.com/stacklens/django-vue-tutorial/blob/master/md/14.用户的注册.md)
+**14** - [文章标题图](https://github.com/stacklens/django-vue-tutorial/blob/master/md/140-文章标题图.md)
 
-- 注册表单 /  注册视图 / 模板和 url
+- 图片Model
+- 文件上传
 
-**15** - [用户的删除](https://github.com/stacklens/django-vue-tutorial/blob/master/md/15.用户的删除.md)
+**15** - [评论](https://github.com/stacklens/django-vue-tutorial/blob/master/md/150-评论.md)
 
-- 权限与视图 / 检查数据库
+- 自定义权限
 
-**16** - [重置用户密码](https://github.com/stacklens/django-vue-tutorial/blob/master/md/16.重置用户密码.md)
+**16** - [评论的评论](https://github.com/stacklens/django-vue-tutorial/blob/master/md/160-评论的评论.md)
 
-- 安装三方库 / 使用库
-- 配置邮箱 / 常见错误
+- Model自关联 / exclude
 
-**17** - [拓展用户信息](https://github.com/stacklens/django-vue-tutorial/blob/master/md/17.拓展用户信息.md)
+**17** - [JWT身份验证](https://github.com/stacklens/django-vue-tutorial/blob/master/md/170-JWT身份验证.md)
 
-- 拓展 User / 重建数据库
-- 表单、视图和模板 / 修改 article 视图 / 配置后台
+- JWT 与 token
 
-**18** - [上传头像](https://github.com/stacklens/django-vue-tutorial/blob/master/md/18.上传头像.md)
+**18** - [用户管理](https://github.com/stacklens/django-vue-tutorial/blob/master/md/180-用户管理.md)
 
-- 必要配置 / 编写 MTV
+- 自定义权限
+- 自定义 action
 
-**19** - [文章分页](https://github.com/stacklens/django-vue-tutorial/blob/master/md/19.文章分页.md)
+**19** - [前端开发准备](https://github.com/stacklens/django-vue-tutorial/blob/master/md/190-前端开发准备.md)
 
-- Paginator 类 / 分页视图 / 模板编写
+- 中期准备
+- Vue 简介 / 搭建前端服务
 
-**20** - [浏览量](https://github.com/stacklens/django-vue-tutorial/blob/master/md/20.浏览量.md)
+**20** - [文章列表](https://github.com/stacklens/django-vue-tutorial/blob/master/md/200-文章列表.md)
 
-- 修改模型 / 列表模板 / 详情模板 / 修改视图
-- 鉴权
+- Axios / 跨域
+- Vue 结构 / 状态数据
+- 组件化
 
-**21** - [最热文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/21.最热文章.md)
+**21** - [文章详情](https://github.com/stacklens/django-vue-tutorial/blob/master/md/210-文章详情.md)
 
-- 重构视图 / 修改模板及测试
+- vue-router / 动态路由
+- 路由参数
 
-**22** - [搜索文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/22.搜索文章.md)
+**22** - [翻页与监听](https://github.com/stacklens/django-vue-tutorial/blob/master/md/220-翻页与监听.md)
 
-- 搜索逻辑 / get 和 post 的区别 / Q对象
-- 面包屑组件 / 搜索框
+- 翻页与路由
+- watch监听
 
-**23** - [文章目录](https://github.com/stacklens/django-vue-tutorial/blob/master/md/23.文章目录.md)
+**23** - [搜索文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/230-搜索文章.md)
 
-- 文章中的目录
-- 任意位置的目录
+- 编程式路由
+- 事件绑定 / 原型链
 
-**24** - [评论](https://github.com/stacklens/django-vue-tutorial/blob/master/md/24.评论.md)
+**24** - [用户注册](https://github.com/stacklens/django-vue-tutorial/blob/master/md/240-用户注册.md)
 
-- 创建评论 app / 编写评论模型
-- get_object_or_404() / 日期显示及管道符
+- 数据提交 / this 与 that
 
-**25** - [课间休息](https://github.com/stacklens/django-vue-tutorial/blob/master/md/25.课间休息.md)
+**25** - [用户登录](https://github.com/stacklens/django-vue-tutorial/blob/master/md/250-用户登录.md)
 
-- 进阶内容介绍
+- Token 的获取、存储与刷新
 
-**26** - [基于类的视图](https://github.com/stacklens/django-vue-tutorial/blob/master/md/26.基于类的视图.md)
+**26** - [资料更新与异步](https://github.com/stacklens/django-vue-tutorial/blob/master/md/260-资料更新与异步.md)
 
-- 类视图简介 / 类视图与函数视图
-- 通用视图 / 动态过滤 / 在类视图中添加上下文
-- 混入类 / 详情页、编辑页视图
+- 异步函数 / 代码重构
+- 身份验证
+- 下拉框界面
 
-**27** - [文章栏目](https://github.com/stacklens/django-vue-tutorial/blob/master/md/27.文章栏目.md)
+**27** - [资料删除与组件通信](https://github.com/stacklens/django-vue-tutorial/blob/master/md/270-资料删除与组件通信.md)
 
-- 编写栏目模型 / 在列表中显示栏目
-- 添加测试数据 / 重写文章列表 / 更新MTV
+- Props 与 Events
+- 组件通信 / 访问子组件
 
-**28** - [文章标签](https://github.com/stacklens/django-vue-tutorial/blob/master/md/28.文章标签.md)
+**28** - [发表文章](https://github.com/stacklens/django-vue-tutorial/blob/master/md/280-发表文章.md)
 
-- 安装 Django-taggit
-- 修改模型 / 修改发表视图
-- 标签过滤
+- 样式绑定 / 数据预处理
 
-**29** - [文章标题图](https://github.com/stacklens/django-vue-tutorial/blob/master/md/29.文章标题图.md)
+**29** - [文章更新与删除](https://github.com/stacklens/django-vue-tutorial/blob/master/md/290-文章更新与删除.md)
 
-- 用 Pillow 处理图片 / 模板与测试
+- 操作数据
 
-**30** - [富文本编辑器](https://github.com/stacklens/django-vue-tutorial/blob/master/md/30.富文本编辑器.md)
+**30** - [标题图的提交](https://github.com/stacklens/django-vue-tutorial/blob/master/md/300-标题图的提交.md)
 
-- 安装 Django-ckeditor
-- 在后台使用 ckeditor / 代码高亮
-- 在前台使用 ckeditor / 宽度自适应
+- 提交图片 / 表单监听
+- 样式绑定 /  src 绑定
 
-**31** - [四个小功能](https://github.com/stacklens/django-vue-tutorial/blob/master/md/31.四个重要的小功能.md)
+**31** - [发布评论](https://github.com/stacklens/django-vue-tutorial/blob/master/md/310-发布评论.md)
 
-- 回到顶部浮动按钮 / 矢量图标 / 页脚沉底 / 粘性侧边栏
+- Props / 日期格式化
 
-**32** - [多级评论](https://github.com/stacklens/django-vue-tutorial/blob/master/md/32.多级评论.md)
+**32** - [组合式API](https://github.com/stacklens/django-vue-tutorial/blob/master/md/320-组合式API.md)
 
-- 安装 Django-mptt
-- 理解树形结构 / 前端渲染 / 遍历树 / 加载 Modal
-- Ajax 提交表单
+- 组合式API简介
+- setup 方法 / methods / computed / mounted / watch
 
-**33** - [消息通知](https://github.com/stacklens/django-vue-tutorial/blob/master/md/33.消息通知.md)
+**33** - [部署](https://github.com/stacklens/django-vue-tutorial/blob/master/md/330-部署.md)
 
-- 安装 django-notifications
-- 消息通知用法简介
-- UI 表现 / 理解已读与未读
+- 云服务器 / 远程连接
+- 下载项目 / 部署
+- 运行与维护
 
-**34** - [锚点定位](https://github.com/stacklens/django-vue-tutorial/blob/master/md/34.锚点定位.md)
+**34** - [结语](https://github.com/stacklens/django-vue-tutorial/blob/master/md/340-结语.md)
 
-- 理解锚点
-- html 拼接 / 视图拼接 / 流动的数据 / 三元运算符
-
-**35** - [第三方登录](https://github.com/stacklens/django-vue-tutorial/blob/master/md/35.第三方登录.md)
-
-- 本地登录 / 美化模板
-- GitHub 登录 / allauth 配置项
-
-**36** - [自动化测试](https://github.com/stacklens/django-vue-tutorial/blob/master/md/36.自动化测试.md)
-
-- 第一个测试 / 暴露 bug 的方法 / 运行单元测试 / 修复 bug
-- 对视图的测试 / Selenium
-
-**37** - [日志记录](https://github.com/stacklens/django-vue-tutorial/blob/master/md/37.日志记录.md)
-
-- 日志的组成
-- 日志配置示例 / 复杂示例
-- 日志分割 / 自定义日志
-
-**38** - [模板过滤器和标签](https://github.com/stacklens/django-vue-tutorial/blob/master/md/38.模板过滤器和标签.md)
-
-- 注册过滤器和标签
-- 更人性化的时间 / 简单标签 / 包含标签
-
-**39** - [点赞功能](https://github.com/stacklens/django-vue-tutorial/blob/master/md/39.点赞功能.md)
-
-- 实现逻辑的探讨 / LocalStorage 介绍
-- JS 与 Ajax / 利用调试接口
-
-**40** - [将项目部署到云服务器](https://github.com/stacklens/django-vue-tutorial/blob/master/md/40.将项目部署到云服务器.md)
-
-- 配置服务器
-- 远程连接 / 代码部署 / Nginx 配置 / Gunicorn 配置
-- 解决遗留问题 / 后期运维 / 域名及优化
-
-**41** - [期末总结](https://github.com/stacklens/django-vue-tutorial/blob/master/md/41.期末总结.md)
-
-- 接下来学什么 / 写在最后
-
-**42** - [小功能集合贴](https://github.com/stacklens/django-vue-tutorial/blob/master/md/42.小功能集合贴.md)
-
-- 快捷导航 / 页面定位
-
-**43** - [读者常见问题](https://github.com/stacklens/django-vue-tutorial/blob/master/md/43.读者常见问题.md)
+- 结束与开始
 
 ## 加入社区
 
@@ -267,38 +221,46 @@
 ![](http://blog.dusaiphoto.com/QR-h1.jpg)
 
 ## 教程快照
-**代码片段：**
-![](http://blog.dusaiphoto.com/github-quickview-3.jpg)
-
----
-
 **博客首页片段：**
-![](http://blog.dusaiphoto.com/github-quickview-2.png)
+![](https://blog.dusaiphoto.com/drf-p300-2.png)
 
 ---
 
 **博客详情页片段：**
-![](http://blog.dusaiphoto.com/github-quickview-1.jpg)
+![](https://blog.dusaiphoto.com/p210-1.jpg)
 
-## 代码使用说明
-确认你的电脑已经正确安装 Python 3.4 以上的版本。
+## 运行示例代码
+首先确保你的电脑已经安装 Python 3.8 、npm 6.14 或以上的版本。
 
-下载项目后，在命令行中进入项目目录，并创建**虚拟环境**：
+下载项目后，将配置文件 `drf_vue_blog/settings.py` 中的开发模式打开：
+
+```python
+# drf_vue_blog/settings.py
+
+...
+# 修改为 True
+DEBUG = True
+...
+```
+
+在 **PowerShell 命令行**中进入项目目录，并创建**虚拟环境**：
 
 ```bash
-python -m venv env
+python -m venv venv
 ```
+
+> 若上述方法不成功，则可以通过 `virtualenv` 库创建虚拟环境，效果相同。具体方法请搜索。
 
 运行**虚拟环境**（Windows环境）:
 
 ```bash
-env\Scripts\activate.bat
+venv\Scripts\activate.bat
 ```
 
 或（Linux环境）：
 
 ```bash
-source env/bin/activate
+source venv/bin/activate
 ```
 
 自动安装所有依赖项：
@@ -308,20 +270,35 @@ pip install -r requirements.txt
 ```
 
 然后进行数据迁移：
+
 ```bash
 python manage.py migrate
 ```
 
-最后运行测试服务器：
+运行后端服务器：
 ```bash
 python manage.py runserver
 ```
 
-项目就运行起来了。
+新创建一个 PowerShell 命令行窗口，进入项目的 `frontend/` 目录，安装前端依赖项：
 
-数据库文件`db.sqlite3`以及媒体文件夹`media`中的内容是方便读者查看示例效果而存在的。
+```bash
+npm install
+```
 
-master版本管理员账号：dusai  密码：adminpassword
+运行前端服务器：
+
+```bash
+npm run serve
+```
+
+至此前后端开发服务器就都启动了。
+
+浏览器中输入地址 `http://localhost:8080/` 访问博客界面，输入 `http://127.0.0.1:8000/api/` 访问接口数据。
+
+数据库文件 `db.sqlite3` 以及媒体文件夹 `media` 中的内容是方便读者查看示例效果而存在的。
+
+管理员账号：dusai  密码：admin123456
 
 如果你想清除所有数据及媒体文件，将它们直接删除，并运行：
 
