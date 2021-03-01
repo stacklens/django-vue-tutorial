@@ -3,16 +3,16 @@
 [![](https://img.shields.io/badge/vue-3.0-blue.svg)](https://getbootstrap.com/docs/4.1/getting-started/introduction/)
 [![](https://img.shields.io/badge/license-CC_BY_NC_4.0-000000.svg)](https://creativecommons.org/licenses/by-nc/4.0/)
 
-# Django搭建个人博客教程
+# Django-Vue 搭建博客教程
 
-本教程是一个面向入门者的**前后端分离**模式开发个人博客的教程，目的是快速搭建现代化的个人博客网站。
+本教程是一个面向新手的**前后端分离**模式开发个人博客的教程，目的是快速搭建现代化的个人博客网站。
 
 教程基于 Django 3 和 Vue 3 。
 
 > 于 Win 10 系统开发。用 Mac 或 Linux 也 OK。
 
 ## 教程特点
-- **教程全中文、全免费**
+- **入门级、全中文、永久免费**
 - **代码、教程全开源**
 - **基于 Django 3 和 Vue 3**
 
@@ -23,17 +23,17 @@
 - 具备 Javascript 语法基础知识
 - 每天能抽出一个小时学习
 
-总结为一句话，本教程的面向人群：**掌握 Django 基础和 Javascript 语法基础的入门开发者。**
+总之，本教程的面向人群：**掌握 Django 基础和 Javascript 语法基础的入门开发者。**
 
 如果你是老读者，那么应该已经看过我的 Django 传统开发入门教程了：
 
-- [博客传送门](https://www.dusaiphoto.com/article/103/)
-- [GitHub传送门](https://github.com/stacklens/django-vue-tutorial)
-- [知乎传送门](https://www.zhihu.com/column/c_1347682856706105344)
+- [博客传送门](https://www.dusaiphoto.com/article/2/)
+- [GitHub传送门](https://github.com/stacklens/django_blog_tutorial/tree/master/md)
+- [知乎传送门](https://www.zhihu.com/column/django-blog)
 
-> 此外微信公众号也同步更新，搜“杜赛说编程”即可。
+> 微信公众号也同步更新，搜“杜赛说编程”即可。
 
-看过的同学恭喜你，**后端章节**的 `Python` 和 `Django` 部分的基础知识就足够了。没看过的读者可以先浏览一遍（重点看 Model 和 View 部分，Template 可以适当跳过）。
+恭喜你，**后端章节**的 `Python` 和 `Django` 部分的基础知识就足够了。没看过的读者可以先浏览一遍（重点看 Model 和 View 部分，Template 可以适当跳过）。
 
 > 本教程的重点在于介绍前后端分离开发，因此不会深究 Django 的基础知识。
 
