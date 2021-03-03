@@ -5,9 +5,9 @@
 
 ## drf 开发预备
 
-首先在命令行创建博客的 app：
+首先在命令行创建博客文章的 App：
 
-```python
+```bash
 (venv) > python manage.py startapp article
 ```
 
@@ -34,17 +34,17 @@ class Article(models.Model):
         return self.title
 ```
 
-前后端分离项目涉及到一个重要的概念：**序列化**（后面讲解）。好在 Django 世界有一个非常好用的库 djangorestframework，简称 **DRF**。它可以帮我们封装好序列化的底层实现，让开发者专注于业务本身。
+前后端分离中涉及到一个重要的概念：**序列化**（后面讲解）。Django 有一个非常优秀的库 djangorestframework（后称 **DRF**）。它可以帮我们封装好序列化的底层实现，让开发者专注于业务本身。
 
-因此安装 DRF 及其他依赖库：
+安装 DRF 及其他依赖库：
 
-```python
+```bash
 pip install djangorestframework==3.11.0
 pip install markdown==3.2.2
 pip install django-filter==2.3.0
 ```
 
-然后将 app 注册列表：
+然后将 App 注册列表：
 
 ```python
 # drf_vue_blog/settings.py
@@ -57,7 +57,7 @@ INSTALLED_APPS = [
 ]
 ```
 
-接着还需要添加 DRF 的登录视图，以便 DRF 自动为你的接口页面添加一个用户登录的入口：
+接着还需要添加 DRF 的登录视图，以便 DRF 自动为你的可视化接口页面生成一个用户登录的入口：
 
 > 后续开发出接口页面后试着把这行代码删掉，看看会有什么不同。
 
@@ -76,7 +76,7 @@ urlpatterns = [
 
 最后记得数据迁移：
 
-```python
+```bash
 (venv) > python manage.py makemigrations
 (venv) > python manage.py migrate
 ```
@@ -87,7 +87,7 @@ urlpatterns = [
 
 前后端分离的核心思想之一，就是两端交互不通过模板语言，而只传输需要的数据。因此问题就来了。
 
-在 Django 程序的运行过程中，变量都是存储在服务器的内存中；更要命的是，后端 Django 程序是 Python 变量，而前端的浏览器中是 Javascript 变量，这两者是无法直接传递和交流的。因此需要规定一个“标准格式”，前后端都根据这个标准格式，对资源进行保存、读取、传输等操作。
+在 Django 程序的运行过程中，变量都是存储在服务器的内存中；更要命的是，后端 Django 程序中存储的是 Python 变量，而前端的浏览器中是 Javascript 变量，这两者是无法直接通过你家的网线进行传递和交流的。因此需要规定一个“标准格式”，前后端都根据这个标准格式，对资源进行保存、读取、传输等操作。
 
 `JSON` 就是这种标准格式之一。它很轻量，表示出来就是个字符串，可以直接被几乎所有的语言读取，非常方便。
 
@@ -112,7 +112,7 @@ urlpatterns = [
 
 总之，把变量从内存中变成可存储或传输的过程称之为**序列化**，反过来把变量内容从序列化的对象重新读到内存里称之为**反序列化**。
 
-回顾 Django 传统流程下，对一个网络请求的处理：
+回顾 Django 传统流程对一个网络请求的处理：
 
 ```python
 def a_list(request):
@@ -120,9 +120,9 @@ def a_list(request):
     return render(..., context={'articles': articles})
 ```
 
-即将数据作为上下文返回，通过模板引擎将上下文渲染为页面中的数据。
+视图函数将数据作为上下文返回，通过模板引擎将上下文渲染为页面中的数据。
 
-Restful 的处理流程仅仅增加了一步，即对数据**序列化**的处理：
+**Restful** 的处理流程仅增加了一步，即对数据**序列化**的处理：
 
 ```python
 def a_list(request):
@@ -136,12 +136,14 @@ def a_list(request):
 
 这就是前后端分离的雏形：
 
-- 后端只提供数据接口，脱离与模板的纠缠；
-- 前端摆脱了与后端语言、变量的耦合，专注于操作数据、渲染页面。
+- 后端提供数据；
+- 前端专注于操作数据、渲染页面。
+
+> 这里又出现了与前后端分离联系很紧密的新概念：Rest（表现层状态转化） 和 Restful。Restful 架构是指客户端和服务器之间的交互、操作符合 Rest 规范，即：每一个URI代表一种资源；客户端和服务器之间，传递资源的表现层；客户端通过四个HTTP动词，对服务器端资源进行操作，实现"表现层状态转化"。有点难理解，推荐读物[阮一峰的博客](https://www.ruanyifeng.com/blog/2011/09/restful.html)和[知乎文章](https://www.zhihu.com/question/28557115)。
 
 ## Hello World
 
-按照这个思路，我们来写一个 Rest 风格的接口吧。
+按照这个思路，我们来写一个文章列表接口吧。
 
 `article` 模型在前面已经写好了，接下来写视图：
 
@@ -184,7 +186,7 @@ class ArticleListSerializer(serializers.Serializer):
     updated = serializers.DateTimeField()
 ```
 
-序列化类看起来与 Django 的 `Form` 表单类非常的类似，基本就是指定了各个字段的具体类型，以便根据数据类型进行序列化处理。它的作用就是自动对**请求**和**响应**中的数据进行序列化和反序列化的转换，其实现逻辑已经由 DRF 框架封装好了，在入门阶段通常不需要你操心。
+序列化类看起来与 Django 的 `Form` 表单类非常的类似。它指定了接口数据中各个字段的具体类型，自动对**请求**和**响应**中的数据进行序列化和反序列化的转换。其底层实现逻辑已经由 DRF 框架封装好了，在入门阶段通常不需要你操心。
 
 最后将各级 `urls.py` 配置好：
 
@@ -243,7 +245,7 @@ urlpatterns = [
 ]
 ```
 
-虽然很简陋，但是你已经成功完成了一个 Restful 的接口。是不是非常简单？
+虽然简陋，但是你已经成功完成了一个简单的接口。
 
 > 创建管理员用户、在后台中添加数据是非常基础的内容，如果不清楚请参照 [这篇文章](https://www.dusaiphoto.com/article/detail/15/)。
 >
