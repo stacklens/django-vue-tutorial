@@ -39,9 +39,9 @@ class Article(models.Model):
 安装 DRF 及其他依赖库：
 
 ```bash
-pip install djangorestframework==3.11.0
-pip install markdown==3.2.2
-pip install django-filter==2.3.0
+pip install djangorestframework==3.12.2
+pip install markdown==3.3.3
+pip install django-filter==2.4.0
 ```
 
 然后将 App 注册列表：
