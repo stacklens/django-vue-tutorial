@@ -49,6 +49,12 @@
 
 > 有的读者喜欢边学边查，这样也可以，请根据自身习惯调整。
 
+## 加入社区
+
+一个人的学习是孤单的。欢迎扫码 Django 交流QQ群（107143175）、微信公众号、TG群组，和大家一起进步吧。
+
+![](https://blog.dusaiphoto.com/QR-0608.jpg)
+
 ## 教程导航
 **01** - [前言](https://github.com/stacklens/django-vue-tutorial/blob/master/md/10-前言.md)
 
@@ -213,12 +219,6 @@
 **34** - [结语](https://github.com/stacklens/django-vue-tutorial/blob/master/md/340-结语.md)
 
 - 结束与开始
-
-## 加入社区
-
-一个人的学习是孤单的。欢迎扫码 Django 交流QQ群（107143175）、博主公众号、TG群组，和大家一起进步吧。
-
-![](https://blog.dusaiphoto.com/QR-0608.jpg)
 
 ## 教程快照
 **博客首页片段：**
