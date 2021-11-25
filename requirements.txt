@@ -11,4 +11,4 @@ PyJWT==2.0.0
 pyparsing==2.4.7
 pytz==2020.4
 six==1.15.0
-sqlparse==0.4.1
+sqlparse==0.4.2
