@@ -7,7 +7,7 @@ Markdown==3.3.3
 packaging==20.4
 Pillow==8.0.1
 pip-review==1.1.0
-PyJWT==2.0.0
+PyJWT==2.4.0
 pyparsing==2.4.7
 pytz==2020.4
 six==1.15.0
