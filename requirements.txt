@@ -5,7 +5,7 @@ djangorestframework==3.12.2
 djangorestframework-simplejwt==4.6.0
 Markdown==3.3.3
 packaging==20.4
-Pillow==8.0.1
+Pillow==9.3.0
 pip-review==1.1.0
 PyJWT==2.0.0
 pyparsing==2.4.7
